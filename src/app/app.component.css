@@ -4,9 +4,15 @@
 }
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #eaeaea;
     height: 100vh;
     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.conte
+{
+    margin-top: 10vh;
 }
 .todo-container {
     width: 300px;

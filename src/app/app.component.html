@@ -69,7 +69,7 @@
               </th>
             </tr>
             <tbody>
-              <tr *ngFor="let row of tableData" class="slds-hint-parent">
+              <tr *ngFor="let row of tableData; let i = index" class="slds-hint-parent">
                   <td data-label="Check">
                     <input type="checkbox">
                   </td>
@@ -87,6 +87,10 @@
                 </td>
                 <td data-label="Status">
                     <div class="slds-truncate" title="{{row.Description}}">{{row.Description}}</div>
+                </td>
+                <td data-label="Edit">
+                    <button *ngIf="editIndex !== i" (click)="editRow(i)" class="slds-button slds-button_neutral">Edit</button>
+                    <button (click)="deleteRow(i)" class="slds-button slds-button_destructive">Delete</button>
                 </td>
               </tr>
           </tbody>
@@ -140,12 +144,12 @@
     </div>
 -->
     <!-- Modal implementation using SLDS -->
-    <section *ngIf="isModalOpen" role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open ">
+    <section *ngIf="isModalOpen" role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open conte">
       <div class="slds-modal__container slds-box slds-p-around_none slds-box slds-borde pa">
         <!-- Modal/Popup header -->
         <header class="slds-modal__header">
-          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" (click)="closeModal()">
-              <i class="fa-solid fa-x"></i>
+          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse slds-box" title="Close" (click)="closeModal()">
+              <i class="fa-solid fa-x "></i>
             <span class="slds-assistive-text">Close</span>
           </button>
           <h2 class="slds-text-heading_medium">New Task</h2>
@@ -213,7 +217,7 @@
       </div>
     </section>
     
-</div>
+  </div>
 </div>
 </body>
 </html>
