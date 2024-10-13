@@ -34,6 +34,13 @@ export class AppComponent  {
   selectedDate : string = '';
   selectedPriority : string = '';
   selectedDescription : string = '';
+  editIndex: number | null = null;
+  editedUser: string = '';
+  editedStatus: string = '';
+  editedDate: string = '';
+  editedPriority: string = '';
+  editedDescription: string = '';
+
   user(event: any) {
     this.selectedUser = event.target.value;
   }
@@ -63,6 +70,18 @@ export class AppComponent  {
     // Save updated tableData to localStorage
     localStorage.setItem('tableData', JSON.stringify(this.tableData));
   }
+  handleAction(event: any, index: number) {
+    const action = event.target.value;
+    
+    if (action === 'edit') {
+      this.editRow(index);
+    } else if (action === 'delete') {
+      this.deleteRow(index);
+    }
+  }
+  editRow(index: number) {
+    this.isModalOpen = true;
+  }
   // Open the modal
   openModal() {
     this.isModalOpen = true;
@@ -72,25 +91,13 @@ export class AppComponent  {
   closeModal() {
     this.isModalOpen = false;
   }
-  buttonClick()
-  {
-    
-    //alert("hello");
-      // Create a new element (e.g., a <p> element)
-      const newElement = this.renderer.createElement('p');
-
-      // Add text to the new element
-      const text = this.renderer.createText('This is a new paragraph element.');
-  
-      // Append the text node to the newly created element
-      this.renderer.appendChild(newElement, text);
-  
-      // Append the newly created element to the container div
-      this.renderer.appendChild(this.container.nativeElement, newElement);
-  }
-
 
   // Method to refresh table data
+   // Delete a row
+   deleteRow(index: number) {
+    this.tableData.splice(index, 1);  // Remove the item from the array
+    localStorage.setItem('tableData', JSON.stringify(this.tableData));  // Update localStorage
+  }
 
  
   refreshTableData() {
