@@ -47,20 +47,32 @@
       <hr class="slds-m-around_medium slds-border_top" />
       <div class="slds-card__body slds-card__body_inner">
         <div class="card-body">
-          <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+          <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered slds-table_striped">
             <tr class="slds-line-height_reset">
-              <th scope="col"><input type="checkbox"></th>
+              <th scope="col">
+                <div class="slds-form-element">
+                  <label class="slds-checkbox">
+                    <input type="checkbox" name="checkbox" id="checkbox-1" value="option1" />
+                    <span class="slds-checkbox_faux"></span>
+                  </label>
+                </div>
+              </th>
               <th scope="col"><h4>Assigned To</h4></th>
               <th scope="col"><h4>Status</h4></th>
               <th scope="col"><h4>Due Date</h4></th>
               <th scope="col"><h4>Priority</h4></th>
               <th scope="col"><h4>Comments</h4></th>
-              <th scope="col"><h4></h4></th>
+              <th scope="col"><h4>Actions</h4></th>
             </tr>
             <tbody>
               <tr *ngFor="let row of tableData; let i = index" class="slds-hint-parent">
                   <td data-label="Check">
-                    <input type="checkbox">
+                    <div class="slds-form-element">
+                      <label class="slds-checkbox">
+                        <input type="checkbox" name="checkbox" id="checkbox-1" value="option1" />
+                        <span class="slds-checkbox_faux"></span>
+                      </label>
+                    </div>
                   </td>
                   <td data-label="AssignedTo"><div class="slds-truncate" title="{{row.AssignedTo}}">{{row.AssignedTo}}</div></td>
                   <td data-label="Status"><div class="slds-truncate" title="{{row.status}}">{{row.status}}</div></td>
@@ -76,7 +88,7 @@
           </table>
         </div>
       </div>
-      <footer class="slds-card__footer ">
+      <footer class="slds-card__footer">
           <div class="box dix">
             <button class="btn-in-out btn-set slds-button slds-button_neutral co">20</button>
             <div class="">
