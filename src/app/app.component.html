@@ -49,118 +49,63 @@
         <div class="card-body">
           <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
             <tr class="slds-line-height_reset">
-              <th scope="col">
-                <input type="checkbox">
-              </th>
-              <th scope="col">
-                <h4>Assigned To</h4>
-              </th>
-              <th scope="col">
-                <h4>Status</h4>
-              </th>
-              <th scope="col">
-                <h4>Due Date</h4>
-              </th>
-              <th scope="col">
-                <h4>Priority</h4>
-              </th>
-              <th scope="col">
-                <h4>Comments</h4>
-              </th>
+              <th scope="col"><input type="checkbox"></th>
+              <th scope="col"><h4>Assigned To</h4></th>
+              <th scope="col"><h4>Status</h4></th>
+              <th scope="col"><h4>Due Date</h4></th>
+              <th scope="col"><h4>Priority</h4></th>
+              <th scope="col"><h4>Comments</h4></th>
+              <th scope="col"><h4></h4></th>
             </tr>
             <tbody>
               <tr *ngFor="let row of tableData; let i = index" class="slds-hint-parent">
                   <td data-label="Check">
                     <input type="checkbox">
                   </td>
-                  <td data-label="AssignedTo">
-                      <div class="slds-truncate" title="{{row.AssignedTo}}">{{row.AssignedTo}}</div>
+                  <td data-label="AssignedTo"><div class="slds-truncate" title="{{row.AssignedTo}}">{{row.AssignedTo}}</div></td>
+                  <td data-label="Status"><div class="slds-truncate" title="{{row.status}}">{{row.status}}</div></td>
+                  <td data-label="AssignedTo"><div class="slds-truncate" title="{{row.date}}">{{row.date}}</div></td>
+                  <td data-label="Email"><div class="slds-truncate" title="{{row.priority}}">{{row.priority}}</div></td>
+                  <td data-label="Status"><div class="slds-truncate" title="{{row.Description}}">{{row.Description}}</div></td>
+                  <td data-label="Edit">
+                      <button *ngIf="editIndex !== i" (click)="openModal(i)" class="slds-button slds-button_neutral">Edit</button>
+                      <button (click)="deleteRow(i)" class="slds-button slds-button_destructive">Delete</button>
                   </td>
-                  <td data-label="Status">
-                      <div class="slds-truncate" title="{{row.status}}">{{row.status}}</div>
-                  </td>
-                  <td data-label="AssignedTo">
-                    <div class="slds-truncate" title="{{row.date}}">{{row.date}}</div>
-                </td>
-                <td data-label="Email">
-                    <div class="slds-truncate" title="{{row.priority}}">{{row.priority}}</div>
-                </td>
-                <td data-label="Status">
-                    <div class="slds-truncate" title="{{row.Description}}">{{row.Description}}</div>
-                </td>
-                <td data-label="Edit">
-                    <button *ngIf="editIndex !== i" (click)="editRow(i)" class="slds-button slds-button_neutral">Edit</button>
-                    <button (click)="deleteRow(i)" class="slds-button slds-button_destructive">Delete</button>
-                </td>
               </tr>
           </tbody>
           </table>
         </div>
       </div>
       <footer class="slds-card__footer ">
-          <div class="box">
-
+          <div class="box dix">
+            <button class="btn-in-out btn-set slds-button slds-button_neutral co">20</button>
+            <div class="">
+              <button class="btn-in-out slds-button slds-button_brand btn-set co">First</button>
+              <button class="btn-in-out btn-set slds-button slds-button_neutral co">Next</button>
+              <button class="btn-in-out btn-set slds-button slds-button_neutral co">Prev</button>
+            </div>
           </div>
       </footer>
     </div>
   </div> 
-  <!-- comment  
-  <app-popup></app-popup>
-  -->
   <div class="slds-m-around_medium">
-    <!-- Button to open modal 
-    <button class="slds-button slds-button_brand" (click)="openModal()">Add Row</button>
-    -->
-    <!-- Table display 
-    <div class="slds-scrollable_y slds-m-top_medium">
-        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
-            <thead>
-                <tr class="slds-line-height_reset">
-                    <th scope="col">
-                        <div class="slds-truncate" title="Name">Name</div>
-                    </th>
-                    <th scope="col">
-                        <div class="slds-truncate" title="Email">Email</div>
-                    </th>
-                    <th scope="col">
-                        <div class="slds-truncate" title="Status">Status</div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let row of tableData" class="slds-hint-parent">
-                    <td data-label="Name">
-                        <div class="slds-truncate" title="{{row.name}}">{{row.name}}</div>
-                    </td>
-                    <td data-label="Email">
-                        <div class="slds-truncate" title="{{row.email}}">{{row.email}}</div>
-                    </td>
-                    <td data-label="Status">
-                        <div class="slds-truncate" title="{{row.status}}">{{row.status}}</div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
--->
     <!-- Modal implementation using SLDS -->
     <section *ngIf="isModalOpen" role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open conte">
       <div class="slds-modal__container slds-box slds-p-around_none slds-box slds-borde pa">
         <!-- Modal/Popup header -->
         <header class="slds-modal__header">
           <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse slds-box" title="Close" (click)="closeModal()">
-              <i class="fa-solid fa-x "></i>
+              <i class="fa-solid fa-x"></i>
             <span class="slds-assistive-text">Close</span>
           </button>
-          <h2 class="slds-text-heading_medium">New Task</h2>
+          <h2 class="slds-text-heading_medium">{{ editIndex !== null ? 'Edit Task' : 'New Task' }}</h2>
         </header>
         <!-- Modal/Popup body -->
         <div class="slds-modal__content slds-p-around_medium">
           <div class="row">
             <div class="col slds-m-around_medium">
-              <label for="" class="slds-form-element__label"><abbr class="slds-required" title="required">*</abbr>Assigned To</label>
-              <select id="dropdown" class="k" name="options" (change)="user($event)">
-                <option value="select" >select</option>
+              <label for="assignedTo" class="slds-form-element__label"><abbr class="slds-required" title="required">*</abbr>Assigned To</label>
+              <select id="assignedTo" class="k" name="options"  [(ngModel)]="formData.AssignedTo">
                 <option value="User 1" >User 1</option>
                 <option value="User 2">User 2</option>
                 <option value="User 3">User 3</option>
@@ -168,9 +113,8 @@
               </select>
             </div>
             <div class="col slds-m-around_medium">
-              <label for="" class="slds-form-element__label"><abbr class="slds-required" title="required">*</abbr>Status</label>
-              <select id="dropdown" class="k" name="options" (change)="status($event)">
-                <option value="select" >select</option>
+              <label for="status" class="slds-form-element__label"><abbr class="slds-required" title="required">*</abbr>Status</label>
+              <select id="status" class="k" name="options" [(ngModel)]="formData.status">
                 <option value="Not Started" >Not Started</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Completed">Completed</option>
@@ -182,14 +126,13 @@
               <div class="slds-form-element ">
                 <label class="slds-form-element__label" for="date"><abbr class="slds-required" title="required">*</abbr>Due Date</label>
                 <div class="slds-form-element__control">
-                    <input type="date" id="date" class="slds-input k input" (change)="date($event)"/>
+                    <input type="date" id="date" class="slds-input k input" [(ngModel)]="formData.date"/>
                 </div>
                </div>
             </div>
             <div class="col slds-m-around_medium">
-                <label for="" class="slds-form-element__label"><abbr class="slds-required" title="required">*</abbr>Priority</label>
-                <select id="dropdown" class="k" name="options" (change)="priority($event)">
-                  <option value="select" >select</option>
+                <label for="priority" class="slds-form-element__label"><abbr class="slds-required" title="required">*</abbr>Priority</label>
+                <select id="priority" class="k" name="options" [(ngModel)]="formData.priority">
                   <option value="Low" >Low</option>
                   <option value="Normal">Normal</option>
                   <option value="high">high</option>
@@ -199,11 +142,11 @@
           <div class="row">
             <div class="col slds-m-around_medium textarea">
               <div class="slds-form-element">
-                <label class="slds-form-element__label" for="textarea-id">
+                <label class="slds-form-element__label" for="description">
                   <abbr class="slds-required" title="required">*</abbr> Description
                 </label>
                 <div class="slds-form-element__control">
-                  <textarea id="textarea-id" class="slds-textarea" required (change)="Description($event)"></textarea> 
+                  <textarea id="description" class="slds-textarea" [(ngModel)]="formData.Description"></textarea> 
                 </div>
               </div>
             </div>
@@ -212,11 +155,10 @@
         <!-- Modal/Popup footer -->
         <footer class="slds-modal__footer">
           <button class="slds-button slds-button_neutral" (click)="closeModal()">Cancel</button>
-          <button class="slds-button slds-button_success" (click)="addRow(); closeModal()">Save</button>
+          <button class="slds-button slds-button_success" (click)="saveTask()">{{ editIndex !== null ? 'Save Changes' : 'Add Task' }}</button>
         </footer>
       </div>
     </section>
-    
   </div>
 </div>
 </body>

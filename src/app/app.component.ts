@@ -1,33 +1,35 @@
 import { Component, ElementRef, Renderer2, ViewChild ,OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgIf,NgFor} from '@angular/common';
+import { FormsModule } from '@angular/forms'; 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [NgIf,NgFor]
+  imports: [NgIf,NgFor,FormsModule]
 })
 export class AppComponent  {
   title = 'App';
 
   @ViewChild('container', { static: true }) container!: ElementRef;
   constructor(private renderer: Renderer2) { }  
- 
-    // This method is called when the component initializes
+    formData = {
+      AssignedTo: '',
+      status: '',
+      date: '',
+      priority: '',
+      Description: ''
+    };
     ngOnInit() {
-      
-      // Load table data from localStorage when the component initializes
       const savedData = localStorage.getItem('tableData');
       if (savedData) {
         this.tableData = JSON.parse(savedData);
       }
-      
     }
   
   tableData: { AssignedTo: string; status: string; date: string; priority: string; Description: string}[] = [];
 
-  // Track modal visibility state
   isModalOpen = false;
   selectedUser: string = '';
   selectedStatus : string = '';
@@ -64,10 +66,7 @@ export class AppComponent  {
       priority: this.selectedPriority,
       Description: this.selectedDescription
     };
-
-    // Add the new row to the table data
     this.tableData.push(newRow);
-    // Save updated tableData to localStorage
     localStorage.setItem('tableData', JSON.stringify(this.tableData));
   }
   handleAction(event: any, index: number) {
@@ -82,30 +81,39 @@ export class AppComponent  {
   editRow(index: number) {
     this.isModalOpen = true;
   }
-  // Open the modal
-  openModal() {
-    this.isModalOpen = true;
-  }
-
-  // Close the modal
-  closeModal() {
-    this.isModalOpen = false;
-  }
-
-  // Method to refresh table data
-   // Delete a row
-   deleteRow(index: number) {
-    this.tableData.splice(index, 1);  // Remove the item from the array
-    localStorage.setItem('tableData', JSON.stringify(this.tableData));  // Update localStorage
-  }
-
- 
-  refreshTableData() {
-    // Clear the table data
-    this.tableData = [];
+    openModal(editIndex: number | null = null) {
+      this.isModalOpen = true;
+      this.editIndex = editIndex;
   
-    // Optionally, clear localStorage as well if needed
+      if (editIndex !== null) {
+        const task = this.tableData[editIndex];
+        this.formData = { ...task };
+      } else {
+        this.formData = { AssignedTo: '', status: '', date: '', priority: '', Description: '' };
+      }
+    }
+   closeModal() {
+    this.isModalOpen = false;
+    this.editIndex = null;
+  }
+  saveTask() {
+    if (this.editIndex !== null) {
+      this.tableData[this.editIndex] = { ...this.formData };
+    } else {
+      this.tableData.push({ ...this.formData });
+    }
+
+    localStorage.setItem('tableData', JSON.stringify(this.tableData));
+
+    this.closeModal();
+  }
+   deleteRow(index: number) {
+    this.tableData.splice(index, 1);  
+    localStorage.setItem('tableData', JSON.stringify(this.tableData)); 
+  }
+
+   refreshTableData() {
+    this.tableData = [];
     localStorage.removeItem('tableData');
   }
-
 }
